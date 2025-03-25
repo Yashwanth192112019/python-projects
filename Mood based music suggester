@@ -1,1 +1,71 @@
+import random
+from datetime import datetime
 
+# Step 1: Define the mood-based song/playlist library
+music_library = {
+    "happy": [
+        "Happy - Pharrell Williams",
+        "Walking on Sunshine - Katrina and the Waves",
+        "Uptown Funk - Mark Ronson ft. Bruno Mars"
+    ],
+    "sad": [
+        "Someone Like You - Adele",
+        "Fix You - Coldplay",
+        "Let Her Go - Passenger"
+    ],
+    "energetic": [
+        "Eye of the Tiger - Survivor",
+        "Can't Hold Us - Macklemore & Ryan Lewis",
+        "Stronger - Kanye West"
+    ],
+    "relaxed": [
+        "Weightless - Marconi Union",
+        "Sunflower - Rex Orange County",
+        "Better Together - Jack Johnson"
+    ]
+}
+
+
+# Step 2: Function to get a song/playlist based on mood
+def suggest_music(mood):
+    if mood in music_library:
+        suggestion = random.choice(music_library[mood])
+        return suggestion
+    else:
+        return None
+
+
+# Step 3: Function to log the suggestion history
+def log_suggestion(mood, suggestion):
+    today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_message = f"[{today}] Mood: {mood} - Suggested: {suggestion}\n"
+    with open("music_suggestion_history.txt", "a") as file:
+        file.write(log_message)
+
+
+# Main Program
+def main():
+    print("Welcome to the Mood-Based Music Suggester!\n")
+    print("Available moods: happy, sad, energetic, relaxed")
+
+    while True:
+        mood = input("How are you feeling right now? Enter your mood: ").strip().lower()
+
+        # Get a music suggestion
+        suggestion = suggest_music(mood)
+
+        if suggestion:
+            print(f"\nSuggested song/playlist for '{mood}' mood: {suggestion}")
+            log_suggestion(mood, suggestion)
+        else:
+            print("\nSorry, we don't have suggestions for that mood yet. Try another mood.")
+
+        # Ask if user wants another suggestion or to exit
+        another = input("\nWould you like another suggestion? (y/n): ").strip().lower()
+        if another != 'y':
+            print("\nThanks for using the Mood-Based Music Suggester!")
+            break
+
+
+if _name_ == "_main_":
+    main()
